@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>🌸 ไปเที่ยวกับเราไหม ❤️</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com">
+<style>
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Kanit',sans-serif;
+}
+
+body{
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+
+    background:linear-gradient(
+        135deg,
+        #ffd6e7 0%,
+        #ffc8dd 35%,
+        #e4c1f9 70%,
+        #c9e4ff 100%
+    );
+}
+
+/* Aurora Effect */
+
+body::before{
+    content:"";
+    position:absolute;
+    inset:-50%;
+
+    background:
+        radial-gradient(circle, rgba(255,105,180,.35), transparent 25%),
+        radial-gradient(circle, rgba(186,104,255,.25), transparent 25%),
+        radial-gradient(circle, rgba(100,220,255,.25), transparent 25%);
+
+    filter:blur(90px);
+    animation:aurora 20s linear infinite;
+    z-index:0;
+}
+
+@keyframes aurora{
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* Card */
+
+.card{
+
+    width:min(90%,550px);
+
+    padding:40px;
+
+    border-radius:30px;
+
+    background:rgba(255,255,255,.4);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.6);
+
+    text-align:center;
+
+    z-index:2;
+
+    box-shadow:
+        0 20px 50px rgba(255,105,180,.15);
+}
+
+h1{
+    color:#d63384;
+    font-size:clamp(2rem,5vw,3rem);
+    margin-bottom:15px;
+}
+
+.subtitle{
+    color:#7b4d7b;
+    line-height:1.7;
+    margin-bottom:30px;
+}
+
+.btn{
+
+    border:none;
+
+    border-radius:999px;
+
+    padding:15px 35px;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+#yesBtn{
+
+    color:white;
+
+    background:
+    linear-gradient(
+        135deg,
+        #ff4d9d,
+        #ff7da8
+    );
+
+    box-shadow:
+    0 10px 25px rgba(255,0,128,.35);
+}
+
+#yesBtn:hover{
+    transform:scale(1.08);
+}
+
+#noBtn{
+
+    position:absolute;
+
+    background:white;
+
+    color:#d63384;
+
+    z-index:100;
+}
+
+/* Sakura + Snow */
+
+.particle{
+    position:fixed;
+    top:-50px;
+    pointer-events:none;
+    user-select:none;
+    z-index:1;
+}
+
+/* Result */
+
+.result{
+    text-align:center;
+    z-index:9999;
+    animation:pop .8s ease;
+}
+
+.result h1{
+    color:#d63384;
+    font-size:4rem;
+}
+
+.result p{
+    color:#7b4d7b;
+    font-size:1.4rem;
+    margin-top:10px;
+}
+
+@keyframes pop{
+    from{
+        opacity:0;
+        transform:scale(.5);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+</style>
+</head>
+<body>
+
+<div class="card">
+
+    <h1 id="mainTitle"></h1>
+
+    <p class="subtitle">
+        สัญญาว่าจะทำให้วันนั้นเป็นอีกหนึ่งความทรงจำดี ๆ ❤️
+    </p>
+
+    <button id="yesBtn" class="btn">
+        ไป ❤️
+    </button>
+
+</div>
+
+<button id="noBtn" class="btn">
+    ไม่ไป 😅
+</button>
+
+<script>
+
+const SPECIAL_NAME = "บิว";
+
+document.getElementById("mainTitle").innerHTML =
+`🌸 ${SPECIAL_NAME} ไปเที่ยวกับเราไหม 🌸`;
+
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+
+/* ปุ่มหนี */
+
+function initNoBtn(){
+
+    noBtn.style.left =
+    (window.innerWidth / 2 + 110) + "px";
+
+    noBtn.style.top =
+    (window.innerHeight / 2 + 80) + "px";
+}
+
+initNoBtn();
+
+function moveButton(){
+
+    const maxX =
+    window.innerWidth - noBtn.offsetWidth;
+
+    const maxY =
+    window.innerHeight - noBtn.offsetHeight;
+
+    noBtn.style.left =
+    Math.random() * maxX + "px";
+
+    noBtn.style.top =
+    Math.random() * maxY + "px";
+}
+
+noBtn.addEventListener(
+"mouseenter",
+moveButton
+);
+
+noBtn.addEventListener(
+"click",
+moveButton
+);
+
+noBtn.addEventListener(
+"touchstart",
+(e)=>{
+    e.preventDefault();
+    moveButton();
+}
+);
+
+/* ซากุระ + หิมะ */
+
+function createPetal(){
+
+    const symbols =
+    ["🌸","🌸","🌸","❄️"];
+
+    const p =
+    document.createElement("div");
+
+    p.className = "particle";
+
+    p.innerHTML =
+    symbols[
+        Math.floor(
+        Math.random()*symbols.length
+        )
+    ];
+
+    p.style.left =
+    Math.random()*100+"vw";
+
+    p.style.fontSize =
+    (15 + Math.random()*25)+"px";
+
+    document.body.appendChild(p);
+
+    const drift =
+    (Math.random()-0.5)*250;
+
+    p.animate(
+    [
+        {
+            transform:"translate(0,0)",
+            opacity:1
+        },
+        {
+            transform:
+            `translate(${drift}px,
+             ${window.innerHeight+120}px)
+             rotate(360deg)`,
+
+            opacity:0
+        }
+    ],
+    {
+        duration:
+        7000+Math.random()*3000,
+
+        easing:"linear"
+    });
+
+    setTimeout(()=>{
+        p.remove();
+    },10000);
+}
+
+setInterval(createPetal,200);
+
+/* พลุ */
+
+function firework(){
+
+    const colors=[
+        "#ff4d9d",
+        "#ffcc00",
+        "#00c2ff",
+        "#9c27b0",
+        "#00ff88"
+    ];
+
+    const x =
+    Math.random()*window.innerWidth;
+
+    const y =
+    Math.random()*window.innerHeight*0.6;
+
+    for(let i=0;i<50;i++){
+
+        const dot =
+        document.createElement("div");
+
+        dot.style.position="fixed";
+        dot.style.left=x+"px";
+        dot.style.top=y+"px";
+        dot.style.width="8px";
+        dot.style.height="8px";
+        dot.style.borderRadius="50%";
+
+        dot.style.background=
+        colors[Math.floor(
+            Math.random()*colors.length
+        )];
+
+        dot.style.zIndex="9999";
+
+        document.body.appendChild(dot);
+
+        const angle =
+        Math.random()*Math.PI*2;
+
+        const distance =
+        80+Math.random()*120;
+
+        dot.animate(
+        [
+            {opacity:1},
+            {
+                transform:
+                `translate(
+                ${Math.cos(angle)*distance}px,
+                ${Math.sin(angle)*distance}px)`,
+
+                opacity:0
+            }
+        ],
+        {
+            duration:1200,
+            easing:"ease-out"
+        });
+
+        setTimeout(()=>{
+            dot.remove();
+        },1200);
+    }
+}
+
+function showTripMenu(){
+
+    document.body.innerHTML = `
+
+    <div class="card">
+
+        <h1>🥰 เย้!</h1>
+
+        <p class="subtitle">
+            ${SPECIAL_NAME} อยากไปเที่ยวแนวไหนดี ❤️
+        </p>
+
+        <div class="menu">
+
+            <button onclick="showSea()" class="tripBtn">
+                🏖️ ทะเล
+            </button>
+
+            <button onclick="showMountain()" class="tripBtn">
+                ⛰️ ภูเขา
+            </button>
+
+            <button onclick="showCafe()" class="tripBtn">
+                ☕ คาเฟ่
+            </button>
+
+        </div>
+
+    </div>
+    `;
+}
+
+function showSea(){
+
+    document.body.innerHTML = `
+
+    <div class="card">
+
+        <h1>🏖️ ทะเล</h1>
+
+        <button class="tripBtn"
+        onclick="finishTrip('🌊 บางแสน')">
+            🌊 บางแสน
+        </button>
+
+        <br><br>
+
+        <button class="tripBtn"
+        onclick="finishTrip('🌴 พัทยา')">
+            🌴 พัทยา
+        </button>
+
+    </div>
+    `;
+}
+
+function showMountain(){
+
+    document.body.innerHTML = `
+
+    <div class="card">
+
+        <h1>⛰️ ภูเขา</h1>
+
+        <button class="tripBtn"
+        onclick="finishTrip('🌲 เขาใหญ่')">
+            🌲 เขาใหญ่
+        </button>
+
+        <br><br>
+
+        <button class="tripBtn"
+        onclick="finishTrip('🍃 วังน้ำเขียว')">
+            🍃 วังน้ำเขียว
+        </button>
+
+    </div>
+    `;
+}
+function showCafe(){
+
+    document.body.innerHTML = `
+
+    <div class="card">
+
+        <h1>☕ คาเฟ่</h1>
+
+        <button class="tripBtn"
+        onclick="finishTrip('🐱 คาเฟ่แมว')">
+            🐱 คาเฟ่แมว
+        </button>
+
+        <br><br>
+
+        <button class="tripBtn"
+        onclick="finishTrip('🐶 คาเฟ่หมา ฉะเชิงเทรา')">
+            🐶 คาเฟ่หมา ฉะเชิงเทรา
+        </button>
+
+    </div>
+    `;
+}
+
+function finishTrip(place){
+
+    document.body.innerHTML = `
+
+    <div class="result">
+
+        <div style="font-size:120px;">
+            💖
+        </div>
+
+        <h1>เย้! 🥰</h1>
+
+        <p>
+
+            ${SPECIAL_NAME}
+
+            <br><br>
+
+            งั้นเราไป
+
+            <br><br>
+
+            <strong>${place}</strong>
+
+            <br><br>
+
+            ด้วยกันนะ ❤️
+
+            <br><br>
+
+            📸✨🌸
+
+        </p>
+
+    </div>
+
+    `;
+
+}
+
+
+
+/* ตอบตกลง */
+/*
+yesBtn.addEventListener("click",()=>{
+
+    for(let i=0;i<10;i++){
+
+        setTimeout(()=>{
+            firework();
+        },i*250);
+
+    }
+
+    setTimeout(()=>{
+
+        document.body.innerHTML=`
+
+        <div class="result">
+
+            <div style="font-size:120px">
+                💖
+            </div>
+
+            <h1>เย้! 🥰</h1>
+
+            <p>
+                ${SPECIAL_NAME} ❤️
+                <br><br>
+                งั้นเราไปเที่ยวด้วยกันนะ
+                <br>
+                ✈️🌸💕
+            </p>
+
+        </div>
+
+        `;
+
+    },1500);
+});
+
+window.addEventListener(
+"resize",
+initNoBtn
+);
+*/
+
+yesBtn.addEventListener("click",()=>{
+
+    for(let i=0;i<10;i++){
+        setTimeout(()=>{
+            firework();
+        },i*250);
+    }
+
+    setTimeout(()=>{
+        showTripMenu();
+    },1500);
+
+});
+function cardStyle(content){
+
+    document.body.innerHTML = `
+    <div class="card">
+        ${content}
+    </div>
+    `;
+}
+
+function showTripMenu(){
+
+    cardStyle(`
+
+        <h1>🥰 เย้!</h1>
+
+        <p class="subtitle">
+            ${SPECIAL_NAME} อยากไปเที่ยวแบบไหนดี ❤️
+        </p>
+
+        <div style="display:flex;flex-direction:column;gap:12px;">
+
+            <button class="menuBtn" onclick="showSea()">
+                🏖️ ทะเล
+            </button>
+
+            <button class="menuBtn" onclick="showMountain()">
+                ⛰️ ภูเขา
+            </button>
+
+            <button class="menuBtn" onclick="showCafe()">
+                ☕ คาเฟ่
+            </button>
+
+        </div>
+
+    `);
+
+    decorateButtons();
+}
+
+function showSea(){
+
+    cardStyle(`
+
+        <h1>🏖️ ทะเล</h1>
+
+        <p class="subtitle">
+            เลือกสถานที่ที่อยากไป
+        </p>
+
+        <div style="display:flex;flex-direction:column;gap:12px;">
+
+            <button class="menuBtn"
+            onclick="finishTrip('🌊 บางแสน')">
+                🌊 บางแสน
+            </button>
+
+            <button class="menuBtn"
+            onclick="finishTrip('🌴 พัทยา')">
+                🌴 พัทยา
+            </button>
+
+        </div>
+
+    `);
+
+    decorateButtons();
+}
+
+function showMountain(){
+
+    cardStyle(`
+
+        <h1>⛰️ ภูเขา</h1>
+
+        <p class="subtitle">
+            เลือกสถานที่ที่อยากไป
+        </p>
+
+        <div style="display:flex;flex-direction:column;gap:12px;">
+
+            <button class="menuBtn"
+            onclick="finishTrip('🌲 เขาใหญ่')">
+                🌲 เขาใหญ่
+            </button>
+
+            <button class="menuBtn"
+            onclick="finishTrip('🍃 วังน้ำเขียว')">
+                🍃 วังน้ำเขียว
+            </button>
+
+        </div>
+
+    `);
+
+    decorateButtons();
+}
+
+function showCafe(){
+
+    cardStyle(`
+
+        <h1>☕ คาเฟ่</h1>
+
+        <p class="subtitle">
+            เลือกร้านที่อยากไป
+        </p>
+
+        <div style="display:flex;flex-direction:column;gap:12px;">
+
+            <button class="menuBtn"
+            onclick="finishTrip('🐱 คาเฟ่แมว')">
+                🐱 คาเฟ่แมว
+            </button>
+
+            <button class="menuBtn"
+            onclick="finishTrip('🐶 คาเฟ่หมา ฉะเชิงเทรา')">
+                🐶 คาเฟ่หมา ฉะเชิงเทรา
+            </button>
+
+        </div>
+
+    `);
+
+    decorateButtons();
+}
+
+function decorateButtons(){
+
+    document.querySelectorAll(".menuBtn")
+    .forEach(btn=>{
+
+        btn.style.border = "none";
+        btn.style.padding = "15px";
+        btn.style.borderRadius = "20px";
+        btn.style.cursor = "pointer";
+        btn.style.fontSize = "18px";
+
+        btn.style.background =
+        "linear-gradient(135deg,#ff4d9d,#ff7aa2)";
+
+        btn.style.color = "white";
+    });
+}
+
+function finishTrip(place){
+
+    for(let i=0;i<6;i++){
+        setTimeout(()=>{
+            firework();
+        },i*200);
+    }
+
+    setTimeout(()=>{
+
+        document.body.innerHTML = `
+
+        <div class="result">
+
+            <div style="font-size:120px;">
+                💖
+            </div>
+
+            <h1>เย้! 🥰</h1>
+
+            <p>
+
+                ${SPECIAL_NAME}
+
+                <br><br>
+
+                งั้นเราไป
+
+                <br><br>
+
+                <strong>${place}</strong>
+
+                <br><br>
+
+                ด้วยกันนะ ❤️
+
+                <br>
+
+                📸✨🌸
+
+            </p>
+
+        </div>
+
+        `;
+
+    },1200);
+}
+
+
+</script>
+
+</body>
+</html>
